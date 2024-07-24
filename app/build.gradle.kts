@@ -46,6 +46,7 @@ dependencies {
 
     implementation("org.apache.commons:commons-lang3:3.15.0")
     implementation("org.apache.commons:commons-collections4:4.4")
+    implementation("commons-validator:commons-validator:1.8.0")
 
     testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0") //для тестирования посылания запросов на другой сервер
     implementation("io.javalin:javalin-bundle:6.1.3")//для тестировония проекта на джавалине
