@@ -1,4 +1,4 @@
-name: Java CI
+name: Basic Functionality Check
 
 on:
   - push
@@ -9,20 +9,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
         with:
-          java-version: '11.0.22'
+          java-version: '20'
           distribution: 'temurin'
-      - name: Build
-        run: make build
-      - name: Publish code coverage
-        uses: paambaati/codeclimate-action@v6.0.0
-        env:
-          CC_TEST_REPORTER_ID: "7ae1aec9616efe63e31194aa16ba02375f1cddc9591bd335474f626679464993"
-          JACOCO_SOURCE_PATH: "${{github.workspace}}/app/src/main/java"
+      - uses: gradle/gradle-build-action@v2
         with:
-          coverageCommand: make report
-          debug: true
-          coverageLocations: ${{github.workspace}}/app/build/reports/jacoco/test/jacocoTestReport.xml:jacoco
+          gradle-version: 8.3
+      - run: make test
+      - run: make report
+      - run: make lint
+      - name: Set execute permissions for cc-test-reporter
+        run: chmod +x ./app/cc-test-reporter
+      - name: Publish code coverage
+        uses: paambaati/codeclimate-action@v5.0.0
+        env:
+           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+           JACOCO_SOURCE_PATH: app/src/main/java
+        with:
+           coverageCommand: make report 
+           coverageLocations: ${{github.workspace}}/app/build/reports/jacoco/test/jacocoTestReport.xml:jacococo
