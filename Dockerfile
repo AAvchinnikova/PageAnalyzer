@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY /app .
 
-RUN ./gradlew --no-daemon build
+RUN ./gradlew build
 
 CMD ./build/install/app/bin/app
