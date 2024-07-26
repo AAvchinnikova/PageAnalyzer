@@ -1,38 +1,102 @@
-@import hexlet.code.dto.BuildUrlPage
+@import hexlet.code.dto.UrlPage
+@import hexlet.code.utils.FormattedTime
 @import hexlet.code.utils.NamedRoutes
 
-@param BuildUrlPage page
+@param UrlPage page
 
 @template.layout.page(
 page = page,
 content  = @`
-    <div class="container-fluid bg-dark p-5">
-        <div class="row">
-            <div class="col-md-10 col-lg-8 mx-auto text-white">
-                <h1 class="display-3 mb-0">Анализатор страниц</h1>
-                <p class="lead">Бесплатно проверяйте сайты на SEO пригодность</p>
+    <body class="d-flex flex-column min-vh-100">
+    <main class="flex-grow-1">
+        <div class="mx-auto p-4 py-md-5">
+            <h1>Сайт: ${page.getUrl().getName()}</h1>
+            <table class="table table-bordered table-hover mt-3">
+                <tr>
+                    <td>
+                        ID
+                    </td>
+                    <td>
+                        ${page.getUrl().getId()}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Имя
+                    </td>
+                    <td>
+                        ${page.getUrl().getName()}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Дата создания
+                    </td>
+                    <td>
+                        ${FormattedTime.formattedTime(page.getUrl().getCreatedAt())}
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <h2>Проверки</h2>
 
+            <form action="${NamedRoutes.checkPath(page.getUrl().getId())}" method="post">
+                <button type="submit" class="btn btn-primary">Проверить</button>
+            </form>
 
-                <form action="${NamedRoutes.urlsPath()}" method="post" class="rss-form text-body">
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-floating">
-                                <input id="url-input" autofocus="" type="text" required="" name="url" aria-label="url" class="form-control w-100" placeholder="ссылка" autocomplete="off">
-                                <label for="url-input">Ссылка</label>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <button type="submit" class="h-100 btn btn-lg btn-primary px-sm-5">Проверить</button>
-                        </div>
-                    </div>
-                </form>
-
-                <p class="mt-2 mb-0 text-muted">Пример: https://www.example.com</p>
-            </div>
+            @if(page.getUrlChecks() != null)
+                <table class="table table-bordered table-hover mt-3">
+                    <thead>
+                    <tr>
+                        <td>
+                            ID
+                        </td>
+                        <td>
+                            Код ответа
+                        </td>
+                        <td>
+                            Title
+                        </td>
+                        <td>
+                            H1
+                        </td>
+                        <td>
+                            Description
+                        </td>
+                        <td>
+                            Дата проверки
+                        </td>
+                    </tr>
+                    </thead>
+                    @for(var singlePage : page.getUrlChecks())
+                        <tbody>
+                        <tr>
+                            <td>
+                                ${singlePage.getUrlId()}
+                            </td>
+                            <td>
+                                ${singlePage.getStatusCode()}
+                            </td>
+                            <td>
+                                ${singlePage.getTitle()}
+                            </td>
+                            <td>
+                                ${singlePage.getH1()}
+                            </td>
+                            <td>
+                                ${singlePage.getDescription()}
+                            </td>
+                            <td>
+                                ${FormattedTime.formattedTime(singlePage.getCreatedAt())}
+                            </td>
+                        </tr>
+                        </tbody>
+                    @endfor
+                </table>
+            @endif
         </div>
-    </div>
-
-
+    </main>
+    </body>
 `
 ,
 footer = @`

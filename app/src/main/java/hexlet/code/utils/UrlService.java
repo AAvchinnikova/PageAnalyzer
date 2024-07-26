@@ -11,7 +11,7 @@ public class UrlService {
     public static Optional<Integer> getStatusCode(Url url)  {
         if (CheckRepository.findExisting(url.getId())) {
             var list = CheckRepository.find(Math.toIntExact(url.getId()));
-            return Optional.of(list.get(list.size() - 1).getStatusCode());
+            return Optional.of(list.getLast().getStatusCode());
         }
         return Optional.empty();
     }
@@ -19,7 +19,7 @@ public class UrlService {
         if (CheckRepository.findExisting(url.getId())) {
             var list = CheckRepository.find(Math.toIntExact(url.getId()));
             if (!list.isEmpty()) {
-                return Optional.of(list.get(list.size() - 1).getCreatedAt());
+                return Optional.of(list.getLast().getCreatedAt());
             }
         }
         return Optional.empty();

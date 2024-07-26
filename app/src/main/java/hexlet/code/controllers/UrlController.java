@@ -29,7 +29,6 @@ public class UrlController {
         List<Url> urls = UrlRepository.getEntities();
         UrlsPage page = new UrlsPage(urls);
 
-        //вывод флеш сообщений о (не)добавлении сайта
         page.setFlash(ctx.consumeSessionAttribute("flash"));
         page.setFlashType(ctx.consumeSessionAttribute("flashType"));
 
@@ -55,6 +54,7 @@ public class UrlController {
         var beginnerUrl = ctx.formParam("url");
         String nameUrl = null;
         try {
+            assert beginnerUrl != null;
             var uri = new URI(beginnerUrl);
             nameUrl = uri.getScheme() + "://" + uri.getAuthority();
         } catch (ValidationException e) {
@@ -76,7 +76,7 @@ public class UrlController {
             ctx.sessionAttribute("flashType", "info");
             ctx.redirect(NamedRoutes.urlsPath());
         } else {
-            Url resultUrl = new Url(nameUrl); //добавить в объект класса урл приведённую к нужному виду имя сайта
+            Url resultUrl = new Url(nameUrl);
             UrlRepository.save(resultUrl);
             ctx.sessionAttribute("flash", "Страница успешно добавлена");
             ctx.sessionAttribute("flashType", "success");
@@ -88,9 +88,5 @@ public class UrlController {
         UrlValidator validator = new UrlValidator(schemas, UrlValidator.ALLOW_LOCAL_URLS);
         return validator.isValid(url);
     }
-    public static void destroy(Context ctx) throws SQLException {
-        var id = ctx.pathParamAsClass("id", Long.class).get();
-        UrlRepository.delete(id);
-        ctx.redirect(NamedRoutes.urlsPath());
-    }
+
 }

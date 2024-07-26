@@ -30,6 +30,7 @@ public class App {
         var dataSource = new HikariDataSource(hikariConfig);
 
         var url = App.class.getClassLoader().getResourceAsStream("schema.sql");
+        assert url != null;
         var sql = new BufferedReader(new InputStreamReader(url))
                 .lines().collect(Collectors.joining("\n"));
         log.info(sql);
@@ -41,9 +42,7 @@ public class App {
 
         BaseRepository.dataSource = dataSource;
 
-        var app = Javalin.create(config -> {
-            config.fileRenderer(new JavalinJte(createTemplateEngine()));
-        });
+        var app = Javalin.create(config -> config.fileRenderer(new JavalinJte(createTemplateEngine())));
 
         app.get(NamedRoutes.rootPath(), UrlController::root);
         app.post(NamedRoutes.urlsPath(), UrlController::create);

@@ -77,7 +77,7 @@ public class UrlRepository extends BaseRepository {
         }
     }
 
-    public static void delete(Long id) throws SQLException {
+    public static void delete(Long id) {
         var sql = "DELETE FROM urls WHERE id = ?";
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)) {
