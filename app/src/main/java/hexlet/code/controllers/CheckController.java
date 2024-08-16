@@ -31,7 +31,6 @@ public class CheckController {
 
             var currentTime = FormattedTime.currentTime();
             UrlCheck urlCheck = new UrlCheck(statusCode, title, h1, description, urlId);
-            urlCheck.setCreatedAt(currentTime);
 
             CheckRepository.saveCheck(urlCheck);
 

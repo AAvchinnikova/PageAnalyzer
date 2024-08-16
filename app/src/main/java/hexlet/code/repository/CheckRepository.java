@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CheckRepository extends BaseRepository {
+
     public static void saveCheck(UrlCheck urlCheck) throws SQLException {
         String sql = "INSERT INTO url_checks (url_id, status_code, title, h1, description, created_at) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
@@ -32,6 +33,7 @@ public class CheckRepository extends BaseRepository {
             } else {
                 throw new SQLException("DB have not returned an id after saving an entity");
             }
+            urlCheck.setCreatedAt(currentTime);
         }
     }
 
