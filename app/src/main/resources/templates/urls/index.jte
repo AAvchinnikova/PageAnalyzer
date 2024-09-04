@@ -45,17 +45,10 @@ content  = @`
                                 <a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()} </a>
                             </td>
                             <td>
-                                @if(UrlService.getCheckCreatedAt(url).isPresent())
-                                    ${FormattedTime.formattedTime(UrlService.getCheckCreatedAt(url).orElseThrow(()
-                                     -> new NoSuchElementException("Created_at element not found!")))}
-                                @endif
-
+                                ${UrlService.getCreateAt(url)}
                             </td>
                             <td>
-                                @if(UrlService.getStatusCode(url).isPresent())
-                                    ${UrlService.getStatusCode(url).orElseThrow(()
-                                         -> new NoSuchElementException("Status element not found!"))}
-                                @endif
+                                ${UrlService.getStatus(url)}
                             </td>
                         </tr>
                         </tbody>

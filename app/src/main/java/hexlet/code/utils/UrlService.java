@@ -5,6 +5,7 @@ import hexlet.code.model.Url;
 import hexlet.code.repository.CheckRepository;
 
 import java.sql.Timestamp;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class UrlService {
@@ -23,5 +24,21 @@ public class UrlService {
             }
         }
         return Optional.empty();
+    }
+
+    public static String getCreateAt(Url url) {
+        if (getCheckCreatedAt(url).isPresent()) {
+            return FormattedTime.formattedTime(UrlService.getCheckCreatedAt(url).orElseThrow(()
+                    -> new NoSuchElementException("Created_at element not found!")));
+        }
+        return null;
+    }
+
+    public static Integer getStatus(Url url) {
+        if (getStatusCode(url).isPresent()) {
+            return getStatusCode(url).orElseThrow(()
+                    -> new NoSuchElementException("Status element not found!"));
+        }
+        return null;
     }
 }
