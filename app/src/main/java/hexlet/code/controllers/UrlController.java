@@ -27,7 +27,8 @@ public class UrlController {
     }
     public static void index(Context ctx) throws SQLException {
         List<Url> urls = UrlRepository.getEntities();
-        UrlsPage page = new UrlsPage(urls);
+        var checks = CheckRepository.getLatestChecks();
+        UrlsPage page = new UrlsPage(urls, checks);
 
         page.setFlash(ctx.consumeSessionAttribute("flash"));
         page.setFlashType(ctx.consumeSessionAttribute("flashType"));

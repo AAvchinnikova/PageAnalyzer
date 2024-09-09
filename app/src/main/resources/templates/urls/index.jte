@@ -1,5 +1,4 @@
 @import hexlet.code.dto.UrlsPage
-@import hexlet.code.utils.UrlService
 @import hexlet.code.utils.NamedRoutes
 @import hexlet.code.utils.FormattedTime
 @import java.util.NoSuchElementException
@@ -36,22 +35,19 @@ content  = @`
                     </tr>
                     </thead>
                     @for(var url : page.getUrls())
-                        <tbody>
+                        !{var urlCheck = page.getUrlChecks().get(url.getId());}
                         <tr>
+                            <td>${url.getId()}</td>
                             <td>
-                                ${url.getId()}
+                                <a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()}</a>
                             </td>
                             <td>
-                                <a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()} </a>
+                                ${urlCheck == null ? "" : FormattedTime.formattedTime(urlCheck.getCreatedAt())}
                             </td>
                             <td>
-                                ${UrlService.getCreateAt(url)}
-                            </td>
-                            <td>
-                                ${UrlService.getStatus(url)}
+                                ${urlCheck == null ? "" : String.valueOf(urlCheck.getStatusCode())}
                             </td>
                         </tr>
-                        </tbody>
                     @endfor
                 </table>
             @endif

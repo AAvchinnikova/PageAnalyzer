@@ -1,3 +1,4 @@
+/*
 
 package hexlet.code.utils;
 
@@ -26,7 +27,8 @@ public class UrlService {
         return Optional.empty();
     }
 
-    public static String getCreateAt(Url url) {
+*/
+/*    public static String getCreateAt(Url url) {
         if (getCheckCreatedAt(url).isPresent()) {
             return FormattedTime.formattedTime(UrlService.getCheckCreatedAt(url).orElseThrow(()
                     -> new NoSuchElementException("Created_at element not found!")));
@@ -40,5 +42,7 @@ public class UrlService {
                     -> new NoSuchElementException("Status element not found!"));
         }
         return null;
-    }
+    }*//*
+
 }
+*/
